@@ -68,8 +68,8 @@ class _AddDataProductState extends State<AddDataProduct> {
                   controller: _stockController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    labelText: 'categoria',
-                    hintText: 'Place your categoria',
+                    labelText: 'category',
+                    hintText: 'Place your category',
                     icon: new Icon(Icons.vpn_key),
                   ),
                 ),
