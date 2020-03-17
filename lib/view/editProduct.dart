@@ -52,8 +52,9 @@ class _EditProductState extends State<EditProduct> {
                     leading: const Icon(Icons.person, color: Colors.black),
                     title: new TextFormField(
                       controller: controllerId,
-                          validator: (value) {
-                            if (value.isEmpty) return "ID";
+                          validator: (value){
+                            if (value.isEmpty) 
+                            return "ID";
                           },
                       decoration: new InputDecoration(
                         hintText: "Id", labelText: "Id",

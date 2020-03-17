@@ -64,13 +64,13 @@ class ItemList extends StatelessWidget {
         return new Container(
           padding: const EdgeInsets.all(10.0),
           child: new GestureDetector(
-            // onTap: () => Navigator.of(context).push(
-            //   new MaterialPageRoute(
-            //       builder: (BuildContext context) => new Detail(
-            //         list: list,
-            //         index: i,
-            //       )),
-            // ),
+             onTap: () => Navigator.of(context).push(
+               new MaterialPageRoute(
+                   builder: (BuildContext context) => new Detail(
+                     list: list,
+                     index: i,
+                   )),
+             ),
             child: new Card(
               child: new ListTile(
                 title: new Text(
