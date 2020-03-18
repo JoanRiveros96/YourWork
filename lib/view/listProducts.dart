@@ -15,7 +15,7 @@ class _ListProductsState extends State<ListProducts> {
   List data;
 
   Future<List> getData() async {
-    final response = await http.get("http://10.153.52.251:3000/products");
+    final response = await http.get("http://192.168.1.10:3000/products");
     return json.decode(response.body);
   }
 
