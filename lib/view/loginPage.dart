@@ -30,9 +30,9 @@ class _LoginPageState extends State<LoginPage> {
       body: Container(
         decoration:BoxDecoration(
           gradient: LinearGradient(
-          colors: [Colors.blue, Colors.teal],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter
+              colors: [Colors.blue, Colors.teal],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter
           ),
         ),
 
@@ -41,12 +41,12 @@ class _LoginPageState extends State<LoginPage> {
             heardSection(),
             textSection(),
             buttonSection(),
-            
+
 
           ],
         ),
       ),
-      
+
     );
   }
 
@@ -55,15 +55,15 @@ class _LoginPageState extends State<LoginPage> {
 
     Map data={
       'email': email,
-      'password': pass, 
+      'password': pass,
     };
 
     var jsonResponse;
 
     var response = await http.post("http://192.168.1.10:3000/signin", body: data );
     if(response.statusCode==200){
-    jsonResponse = json.decode(response.body);
-    
+      jsonResponse = json.decode(response.body);
+
       if(jsonResponse != null){
         setState(() {
           _isLoading =false;
@@ -97,12 +97,12 @@ class _LoginPageState extends State<LoginPage> {
         color: Colors.purple,
         child: Text("Signin",style: TextStyle(color:  Colors.white70)),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-        ),
+      ),
+      
     );
   }
 
-
-
+  
   Container textSection(){
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15.0, vertical:20.0),
@@ -112,10 +112,10 @@ class _LoginPageState extends State<LoginPage> {
           cursorColor: Colors.white,
           style: TextStyle (color: Colors.white70),
           decoration: InputDecoration(
-            icon: Icon(Icons.email, color: Colors.white70),
-            hintText: "Email",
-            border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color:Colors.white70) 
+              icon: Icon(Icons.email, color: Colors.white70),
+              hintText: "Email",
+              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color:Colors.white70)
           ),
         ),
         SizedBox(height: 30.0,),
@@ -125,15 +125,15 @@ class _LoginPageState extends State<LoginPage> {
           obscureText: true,
           style: TextStyle (color: Colors.white70),
           decoration: InputDecoration(
-            icon: Icon(Icons.lock, color: Colors.white70),
-            hintText: "Password",
-            border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
-            hintStyle: TextStyle(color:Colors.white70)             
-            ),
+              icon: Icon(Icons.lock, color: Colors.white70),
+              hintText: "Password",
+              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color:Colors.white70)
           ),
-        ],  
+        ),
+      ],
       ),
-    );  
+    );
   }
 
 
@@ -142,13 +142,13 @@ class _LoginPageState extends State<LoginPage> {
       margin: EdgeInsets.only(top: 50.0),
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
       child: Text("YourWork App",
-      style: TextStyle(
-        color: Colors.white70,
-        fontSize: 40.0,
-        fontWeight: FontWeight.bold
-        )),
-      );
-    }
-    
- }
+          style: TextStyle(
+              color: Colors.white70,
+              fontSize: 40.0,
+              fontWeight: FontWeight.bold
+          )),
+    );
+  }
+
+}
 

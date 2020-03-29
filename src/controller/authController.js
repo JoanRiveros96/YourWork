@@ -7,13 +7,17 @@ const verifyToken = require('./verifyToken')
 const jwt  = require('jsonwebtoken')
 const config = require('../config')
 
-const productController = require('../controller/productController')
+const workerController = require('../controller/workerController')
 
 router.post('/signup', async(req,res) =>{
     try{
-        const   {username, email,password } = req.body;
+
+        const   {nombre, cc,ubicacion,celular, email,password } = req.body;
         const user = new User({
-            username,
+            nombre,
+            cc,
+            ubicacion,
+            celular,                    
             email,
             password
         });
@@ -32,16 +36,15 @@ router.post('/signup', async(req,res) =>{
     }
 });
 
+/*router.route('/workers')
+        .get(workerController.index)
+        .post(workerController.new)
 
-router.route('/products')
-        .get(productController.index)
-        .post(productController.new)
-
-router.route('/product/:id')
-        .get(productController.view)
-        .put(productController.update)
-        .delete(productController.delete)
-
+router.route('/worker/:id')
+        .get(workerController.view)
+        .put(workerController.update)
+        .delete(workerController.delete)
+*/
 router.post('/signin', async (req,res)=>{
     try{
 

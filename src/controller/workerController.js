@@ -18,8 +18,17 @@ exports.new = function(req,res){
     let worker = new Worker()
     worker.nombre =req.body.nombre
     worker.cc = req.body.cc
+    worker.ubicacion = req.body.ubicacion
+    worker.celular = req.body.celular
+    worker.email = req.body.email
+    worker.Antecedentes = req.body.Antecedentes
+    worker.formacionPrincipal = req.body.formacionPrincipal
+    worker.formacionSecundaria = req.body.formacionSecundaria
     worker.categoria = req.body.categoria
+
+    //deberia generarse automaticamente
     worker.calificacion = req.body.calificacion
+
     worker.save(function (err){
         if(err){
             res.json({
@@ -68,8 +77,13 @@ exports.update = function(req,res){
             })
             worker.nombre =req.body.nombre
             worker.cc = req.body.cc
+            worker.ubicacion = req.body.ubicacion
+            worker.celular = req.body.celular
+            worker.email = req.body.email
+            worker.Antecedentes = req.body.Antecedentes
+            worker.formacionPrincipal = req.body.formacionPrincipal
+            worker.formacionSecundaria = req.body.formacionSecundaria
             worker.categoria = req.body.categoria
-            worker.calificacion = req.body.calificacion
             worker.save(function (err){
                 if(err){
                     res.json({

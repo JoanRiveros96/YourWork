@@ -90,10 +90,8 @@ exports.update = function(req,res){
     })
 }
 
-exports.delete= function(res,req){
-    product.remove({
-        _id: req.params.id
-    },function(err){
+exports.delete = function(req,res){
+    Product.remove({ _id: req.params.id},function(err){
         if(err)
             res.json({
                 status: 'err',

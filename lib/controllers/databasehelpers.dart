@@ -7,41 +7,42 @@ class DataBaseHelper {
 
   var status;
   var token;
-  String serverUrlproducts = "http://192.168.1.10:3000/products";
+  String serverUrlProducts = "http://192.168.1.10:3000/products";
 
-  //funciton getData
+  //function getData
   Future<List> getData() async{
 
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key ) ?? 0;
 
-    String myUrl = "$serverUrlproducts";
+    String myUrl = "$serverUrlProducts";
     http.Response response = await http.get(myUrl,
         headers: {
           'Accept':'application/json',
           'Authorization' : 'Bearer $value'
-    });
+        });
     return json.decode(response.body);
-   // print(response.body);
+    // print(response.body);
   }
 
 
   //function for register products
-  void addDataProducto(String _nameController, String _priceController, String _stockController) async {
+  void addDataProduct(String _nameController, String _priceController, String _stockController) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key ) ?? 0;
 
-   // String myUrl = "$serverUrl/api";
-   String myUrl = "http://192.168.1.10/products";
-   final response = await  http.post(myUrl,
+    // String myUrl = "$serverUrl/api";
+    String myUrl = "http://192.168.1.10:3000/products";
+    final response = await  http.post(myUrl,
         headers: {
-          'Accept':'application/json'
+          'Accept':'application/json',
+          'Authorization' : 'Bearer $value'
         },
         body: {
           "name":       "$_nameController",
-          "price":      "$_priceController",        
+          "price":      "$_priceController",
           "stock":      "$_stockController"
         } ) ;
     status = response.body.contains('error');
@@ -57,17 +58,17 @@ class DataBaseHelper {
   }
 
   //function for update or put
-  void editarProduct(String _id, String name, String price, String stock) async {
+  void editProduct(String _id, String name, String price, String stock) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
-    final value = prefs.get(key ) ?? 0;
+    final value = prefs.get(key) ?? 0;
 
     String myUrl = "http://192.168.1.10:3000/product/$_id";
     http.put(myUrl,
         body: {
-         "name":       "$name",
-         "price":       "$price",
-         "stock":      "$stock"
+          "name":       "$name",
+          "price":       "$price",
+          "stock":      "$stock"
         }).then((response){
       print('Response status : ${response.statusCode}');
       print('Response body : ${response.body}');
@@ -78,16 +79,16 @@ class DataBaseHelper {
   //function for delete
   Future<void> removeRegister(String _id) async {
 
-  String myUrl = "http://192.168.1.10:3000/product/$_id";
+    String myUrl = "http://192.168.1.10:3000/product/$_id";
 
-  Response res = await http.delete("$myUrl");
+    Response res = await http.delete("$myUrl");
 
-  if (res.statusCode == 200) {
-    print("DELETED");
-  } else {
-    throw "Can't delete post.";
+    if (res.statusCode == 200) {
+      print("DELETED");
+    } else {
+      throw "Can't delete post.";
+    }
   }
-}
 
   //function save
   _save(String token) async {
@@ -98,7 +99,7 @@ class DataBaseHelper {
   }
 
 //function read
- read() async {
+  read() async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key ) ?? 0;

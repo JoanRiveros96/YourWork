@@ -16,7 +16,7 @@ class _AddDataProductState extends State<AddDataProduct> {
   DataBaseHelper databaseHelper = new DataBaseHelper();
 
 
-  final TextEditingController _nameController = new TextEditingController();  
+  final TextEditingController _nameController = new TextEditingController();
   final TextEditingController _priceController = new TextEditingController();
   final TextEditingController _stockController = new TextEditingController();
 
@@ -33,7 +33,7 @@ class _AddDataProductState extends State<AddDataProduct> {
           child: ListView(
             padding: const EdgeInsets.only(top: 62,left: 12.0,right: 12.0,bottom: 12.0),
             children: <Widget>[
-              
+
               Container(
                 height: 50,
                 child: new TextField(
@@ -59,7 +59,7 @@ class _AddDataProductState extends State<AddDataProduct> {
                   ),
                 ),
               ),
-              
+
               new Padding(padding: new EdgeInsets.only(top: 44.0),),
 
               Container(
@@ -68,18 +68,18 @@ class _AddDataProductState extends State<AddDataProduct> {
                   controller: _stockController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    labelText: 'categoria',
-                    hintText: 'Place your categoria',
+                    labelText: 'category',
+                    hintText: 'Place your category',
                     icon: new Icon(Icons.vpn_key),
                   ),
                 ),
               ),
-             new Padding(padding: new EdgeInsets.only(top: 44.0),),
+              new Padding(padding: new EdgeInsets.only(top: 44.0),),
               Container(
                 height: 50,
                 child: new RaisedButton(
                   onPressed: (){
-                    databaseHelper.addDataProducto(
+                    databaseHelper.addDataProduct(
                         _nameController.text.trim(), _priceController.text.trim(), _stockController.text.trim());
                     Navigator.of(context).push(
                         new MaterialPageRoute(
