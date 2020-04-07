@@ -6,6 +6,7 @@ let workerSchema = mongoose.Schema({
         require:true,
     },
     cc: Number,
+    Avatar: String,
     ubicacion: String,
     celular: Number,
     email: String,

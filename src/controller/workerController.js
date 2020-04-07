@@ -1,4 +1,4 @@
-Product = require('../models/workerModel');
+Worker = require('../models/workerModel');
 
 exports.index = (req,res)=>{
     Worker.get((err, worker)=>{
@@ -18,6 +18,7 @@ exports.new = function(req,res){
     let worker = new Worker()
     worker.nombre =req.body.nombre
     worker.cc = req.body.cc
+    Worker.Avatar = req.body.Avatar
     worker.ubicacion = req.body.ubicacion
     worker.celular = req.body.celular
     worker.email = req.body.email
@@ -77,6 +78,7 @@ exports.update = function(req,res){
             })
             worker.nombre =req.body.nombre
             worker.cc = req.body.cc
+            Worker.Avatar = req.Avatar
             worker.ubicacion = req.body.ubicacion
             worker.celular = req.body.celular
             worker.email = req.body.email
@@ -84,6 +86,7 @@ exports.update = function(req,res){
             worker.formacionPrincipal = req.body.formacionPrincipal
             worker.formacionSecundaria = req.body.formacionSecundaria
             worker.categoria = req.body.categoria
+            worker.calificacion = req.body.calificacion
             worker.save(function (err){
                 if(err){
                     res.json({

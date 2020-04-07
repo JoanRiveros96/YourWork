@@ -4,6 +4,7 @@ const bcrypt= require('bcryptjs');
 const userSchema = new Schema({
     nombre: String,
     cc: Number,
+    Avatar: String,
     ubicacion: String,
     celular: Number,
     email: String,
