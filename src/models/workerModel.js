@@ -1,10 +1,7 @@
 let mongoose = require ('mongoose')
 
 let workerSchema = mongoose.Schema({
-    nombre:{
-        type: String,
-        require:true,
-    },
+    nombre:String,
     cc: Number,
     Avatar: String,
     ubicacion: String,

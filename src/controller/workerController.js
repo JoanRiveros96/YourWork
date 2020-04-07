@@ -1,4 +1,12 @@
-Worker = require('../models/workerModel');
+const {Router} = require('express')
+const router=  Router();   
+
+const Worker = require('../models/workerModel');
+
+
+
+//const Worker = require('../models/workerModel')
+
 
 exports.index = (req,res)=>{
     Worker.get((err, worker)=>{
@@ -127,3 +135,4 @@ exports.delete= function(res,req){
         
     })
 }
+module.exports = router;

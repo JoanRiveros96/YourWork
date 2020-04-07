@@ -5,6 +5,7 @@ const faker = require('faker');
 
 const User= require('../models/userModel')
 const verifyToken = require('./verifyToken')
+const Worker = require('../models/workerModel');
 
 const jwt  = require('jsonwebtoken')
 const config = require('../config')
@@ -13,6 +14,8 @@ const workerController = require('../controller/workerController')
 
 router.post('/signup', async(req,res) =>{
     try{
+
+
 
         const   {nombre, cc,ubicacion,celular, email,password } = req.body;
         const user = new User({
@@ -37,34 +40,63 @@ router.post('/signup', async(req,res) =>{
         res.status(500).send('There was a problem signup');
     }
 });
-router.get('/user/create',  async(req,res) => {
-    // for(let i= 0; i<5; i++){
-    //     await User.create({
-    //         nombre: faker.name.firstName(),
-    // cc: '1232132',
-    // Avatar: faker.image.avatar(),
-    // ubicacion: faker.address.streetAddress(),
-    // celular: '2374253423',
-    // email: faker.internet.email(),
-    // password: faker.internet.password()
-    //     })
-    // }
-    // res.json("Create 5 users");
+
+//CREACION DE USUARIOS Y TRABAJOS FAKER
+// router.get('/user/create',  async(req,res) => {
+//     // for(let i= 0; i<5; i++){
+//     //     await User.create({
+//     //         nombre: faker.name.firstName(),
+//     // cc: '1232132',
+//     // Avatar: faker.image.avatar(),
+//     // ubicacion: faker.address.streetAddress(),
+//     // celular: '2374253423',
+//     // email: faker.internet.email(),
+//     // password: faker.internet.password()
+//     //     })
+//     // }
+//     // res.json("Create 5 users");
 
 
-        await User.create({
-            nombre: 'Joan Riveros',
-    cc: '1232132',
-    Avatar: faker.image.avatar(),
-    ubicacion: faker.address.streetAddress(),
-    celular: '2374253423',
-    email: 'admin@gmail.com',
-    password: '123456789'
-        })
+//         await User.create({
+//             nombre: 'Joan Riveros',
+//     cc: '1232132',
+//     Avatar: faker.image.avatar(),
+//     ubicacion: faker.address.streetAddress(),
+//     celular: '2374253423',
+//     email: 'admin@gmail.com',
+//     password: '123456789'
+//         })
     
-    res.json("Create admin user");
+//     res.json("Create admin user");
 
-});
+// });
+
+// router.get('/worker/create',  async(req,res) => {
+//     for(let i= 0; i<5; i++){
+//         await Worker.create({
+
+//         nombre : faker.name.firstName(),
+//         cc : faker.random.number(),
+//         Avatar : faker.image.avatar(),
+//         ubicacion : faker.address.streetAddress(),
+//         celular : faker.random.number(),
+//        email : faker.internet.email(),
+//        Antecedentes : faker.image.people(),
+//        formacionPrincipal : faker.company.companyName(),
+//        formacionSecundaria : faker.company.companyName(),
+//        categoria : faker.commerce.department(),
+
+//        //deberia generarse automaticamente
+//        calificacion : faker.random.number()
+
+        
+//         })
+//     }
+//     res.json("5 trabajadores creados");
+
+
+
+// });
 /*router.route('/workers')
         .get(workerController.index)
         .post(workerController.new)
