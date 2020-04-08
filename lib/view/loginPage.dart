@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart'as http;
 import 'package:work/main.dart';
+import 'package:work/view/RegistroPage.dart';
 class LoginPage extends StatefulWidget {
 
   @override
@@ -30,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Container(
         decoration:BoxDecoration(
           gradient: LinearGradient(
-              colors: [Colors.blue, Colors.teal],
+              colors: [Colors.green, Colors.teal],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter
           ),
@@ -41,6 +42,7 @@ class _LoginPageState extends State<LoginPage> {
             heardSection(),
             textSection(),
             buttonSection(),
+            signupSection(),
 
 
           ],
@@ -81,12 +83,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Container buttonSection(){
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 40,
-      padding: EdgeInsets.symmetric(horizontal:15),
-      margin: EdgeInsets.only(top: 15),
-      child: RaisedButton(
+    var signinButton = RaisedButton(
         onPressed: emailController.text =="" || passwordController.text == "" ? null:(){
           setState(() {
             _isLoading = true;
@@ -95,9 +92,40 @@ class _LoginPageState extends State<LoginPage> {
         },
         elevation: 0.0,
         color: Colors.purple,
-        child: Text("Signin",style: TextStyle(color:  Colors.white70)),
+        child: Text("Iniciar sesión",style: TextStyle(color:  Colors.white70)),
+        
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-      ),
+      );
+      
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 40,
+      padding: EdgeInsets.symmetric(horizontal:15),
+      margin: EdgeInsets.only(top: 15),
+      child: signinButton,
+      
+      
+    );
+  }
+
+  Container signupSection(){
+    var signupButton = FlatButton(
+        onPressed:(){
+           Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=>RegistroPage()));
+        },
+        color: Colors.green,
+        child: Text("Registrarse",style: TextStyle(color:  Colors.white70)),
+        
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+      );
+      
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 40,
+      padding: EdgeInsets.symmetric(horizontal:15),
+      margin: EdgeInsets.only(top: 15),
+      child: signupButton,
+      
       
     );
   }

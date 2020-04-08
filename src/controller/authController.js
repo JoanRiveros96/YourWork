@@ -17,10 +17,11 @@ router.post('/signup', async(req,res) =>{
 
 
 
-        const   {nombre, cc,ubicacion,celular, email,password } = req.body;
+        const   {nombre, cc,Avatar,ubicacion,celular, email,password } = req.body;
         const user = new User({
             nombre,
             cc,
+            Avatar,
             ubicacion,
             celular,                    
             email,
@@ -71,32 +72,32 @@ router.post('/signup', async(req,res) =>{
 
 // });
 
-// router.get('/worker/create',  async(req,res) => {
-//     for(let i= 0; i<5; i++){
-//         await Worker.create({
+router.get('/worker/create',  async(req,res) => {
+    for(let i= 0; i<5; i++){
+        await Worker.create({
 
-//         nombre : faker.name.firstName(),
-//         cc : faker.random.number(),
-//         Avatar : faker.image.avatar(),
-//         ubicacion : faker.address.streetAddress(),
-//         celular : faker.random.number(),
-//        email : faker.internet.email(),
-//        Antecedentes : faker.image.people(),
-//        formacionPrincipal : faker.company.companyName(),
-//        formacionSecundaria : faker.company.companyName(),
-//        categoria : faker.commerce.department(),
+        nombre : faker.name.firstName(),
+        cc : faker.random.number(),
+        Avatar : faker.image.avatar(),
+        ubicacion : faker.address.streetAddress(),
+        celular : faker.random.number(),
+       email : faker.internet.email(),
+       Antecedentes : faker.image.people(),
+       formacionPrincipal : faker.company.companyName(),
+       formacionSecundaria : faker.company.companyName(),
+       categoria : faker.commerce.department(),
 
-//        //deberia generarse automaticamente
-//        calificacion : faker.random.number()
+       //deberia generarse automaticamente
+       calificacion : faker.random.number()
 
         
-//         })
-//     }
-//     res.json("5 trabajadores creados");
+        })
+    }
+    res.json("5 trabajadores creados");
 
 
 
-// });
+});
 /*router.route('/workers')
         .get(workerController.index)
         .post(workerController.new)
