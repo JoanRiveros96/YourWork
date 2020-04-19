@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:work/view/addProducts.dart';
-import 'package:work/view/listProducts.dart';
+import 'package:work/view/listWorkers.dart';
 import 'package:work/view/loginPage.dart';
 void main() => runApp(MyApp());
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'YourWork App',
       theme: ThemeData(
 
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       home: MainPage(),
     );
@@ -71,7 +71,7 @@ class _MainPageState extends State<MainPage> {
                 new ListTile(
                     title: new Text("List workers"),
                     trailing: new Icon(Icons.help),
-                    onTap: () => Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=>ListProducts()),
+                    onTap: () => Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=>ListWorker()),
                     )),
                 new ListTile(title: new Text("Add Worker"),
                     trailing: new Icon(Icons.add),

@@ -7,7 +7,7 @@ class DataBaseHelper {
 
   var status;
   var token;
-  String serverUrlProducts = "http://192.168.1.8:3000/products";
+  String serverUrlProducts = "http://192.168.1.9:3000/products";
 
   //function getData
   Future<List> getData() async{
@@ -34,7 +34,7 @@ class DataBaseHelper {
     final value = prefs.get(key ) ?? 0;
 
     // String myUrl = "$serverUrl/api";
-    String myUrl = "http://192.168.1.8:3000/products";
+    String myUrl = "http://192.168.1.9:3000/products";
     final response = await  http.post(myUrl,
         headers: {
           'Accept':'application/json',
@@ -63,7 +63,7 @@ class DataBaseHelper {
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://192.168.1.8:3000/product/$_id";
+    String myUrl = "http://192.168.1.9:3000/product/$_id";
     http.put(myUrl,
         body: {
           "name":       "$name",
@@ -79,7 +79,7 @@ class DataBaseHelper {
   //function for delete
   Future<void> removeRegister(String _id) async {
 
-    String myUrl = "http://192.168.1.8:3000/product/$_id";
+    String myUrl = "http://192.168.1.9:3000/product/$_id";
 
     Response res = await http.delete("$myUrl");
 
