@@ -21,7 +21,7 @@ class _ListWorkerState extends State<ListWorker> {
   Map data;
   List workerData;
   getWorker() async{
-    http.Response response = await http.get("http://192.168.1.9:3000/workers");
+    http.Response response = await http.get("http://192.168.1.6:3000/workers");
     data = json.decode(response.body);
     setState(() {
      workerData = data['worker'];
@@ -40,30 +40,28 @@ class _ListWorkerState extends State<ListWorker> {
         itemBuilder: (BuildContext context, int index){
           return Card(
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(20.0),
               child: Row(
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text('$index',
-                        style: TextStyle(
-                            fontSize: 20.0,
-                          fontWeight: FontWeight.w500
-
-                        )
-                    ),
-                  ),
                   CircleAvatar(backgroundImage: NetworkImage(workerData[index]['Avatar']),
+                    radius: 50
                   ),
-                  Padding(padding: const EdgeInsets.all(10.0),
-
-                    child: Text("${workerData[index]["nombre"]}",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w700
+                  Column(
+                    children: <Widget>[
+                      Text("\t\t Nombre: "+"${workerData[index]["nombre"]}",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w700
+                        ),
                       ),
-                    ),
-                  )
+                      Text("\t\t Categoria: ""${workerData[index]["categoria"]}",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w700
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

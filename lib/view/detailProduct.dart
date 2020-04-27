@@ -1,6 +1,6 @@
 import 'package:work/controllers/databasehelpers.dart';
 import 'package:work/view/editProduct.dart';
-import 'package:work/view/listProducts.dart';
+//import 'package:work/view/listProducts.dart';
 import 'package:flutter/material.dart';
 
 
@@ -32,7 +32,7 @@ class _DetailState extends State<Detail> {
             databaseHelper.removeRegister(widget.list[widget.index]['_id'].toString());
             Navigator.of(context).push(
                 new MaterialPageRoute(
-                  builder: (BuildContext context) => new ListProducts(),
+                  //builder: (BuildContext context) => new ListProducts(),
                 )
             );
           },

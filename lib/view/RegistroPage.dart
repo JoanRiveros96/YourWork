@@ -37,8 +37,8 @@ class _RegistroPageState extends State<RegistroPage> {
           children: <Widget>[
             heardSection(),
             textSection(),
-            signupSection(),
-            //signupSection(),
+            signupSection()
+
 
 
           ],
@@ -64,7 +64,7 @@ class _RegistroPageState extends State<RegistroPage> {
 
     var jsonResponse;
 
-    var response = await http.post("http://192.168.1.9:3000/signup", body: data );
+    var response = await http.post("http://192.168.1.6:3000/signup", body: data );
     if(response.statusCode==200){
       jsonResponse = json.decode(response.body);
 
@@ -86,11 +86,14 @@ class _RegistroPageState extends State<RegistroPage> {
 
   Container signupSection(){
     var signupButton = RaisedButton(
-      onPressed: nombreController.text =="" || emailController.text == "" || contrasenaController.text == "" || confContrasenaController.text =="" ? null && contrasenaController.text == confContrasenaController.text:(){
-        setState(() {
-          _isLoading = true;
-        });
-        signup(nombreController.text, emailController.text, confContrasenaController.text);
+      onPressed: nombreController.text =="" || emailController.text == "" || contrasenaController.text == "" || confContrasenaController.text =="" ? null:() {
+
+          setState(() {
+            _isLoading = true;
+          });
+          if(contrasenaController.text == confContrasenaController.text) {
+            signup(nombreController.text, emailController.text,confContrasenaController.text);
+          }
       },
       elevation: 0.0,
       color: Colors.blue,
@@ -114,9 +117,11 @@ Container heardSection(){
     return Container(
       margin: EdgeInsets.only(top: 50.0),
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-      child: Text("Solicita trabajos y/o genera ingresos con nuestra app",
+      child: Text("Encuentra el servicio que estas buscando",
+          textAlign: TextAlign.center,
           style: TextStyle(
               color: Colors.white70,
+
               fontSize: 30.0,
               fontWeight: FontWeight.bold
           )),

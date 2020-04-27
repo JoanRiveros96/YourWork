@@ -1,5 +1,5 @@
 import 'package:work/controllers/databasehelpers.dart';
-import 'package:work/view/listProducts.dart';
+//import 'package:work/view/listProducts.dart';
 import 'package:flutter/material.dart';
 
 
@@ -110,7 +110,7 @@ class _EditProductState extends State<EditProduct> {
                         controllerId.text.trim(), controllerName.text.trim(), controllerPrice.text.trim(), controllerStock.text.trim());
                     Navigator.of(context).push(
                         new MaterialPageRoute(
-                          builder: (BuildContext context) => new ListProducts(),
+                          //builder: (BuildContext context) => new ListProducts(),
                         )
                     );
                   },

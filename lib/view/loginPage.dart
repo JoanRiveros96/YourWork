@@ -25,15 +25,18 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    theme: ThemeData(
+      primarySwatch: Colors.green,
+    );
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor:Colors.transparent));
     return Scaffold(
       body: Container(
         decoration:BoxDecoration(
+
           gradient: LinearGradient(
-              colors: [Colors.green, Colors.teal],
+              colors: [Colors.white, Colors.white10],
               begin: Alignment.topCenter,
-              end: Alignment.bottomCenter
+              end: Alignment.topCenter
           ),
         ),
 
@@ -62,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
 
     var jsonResponse;
 
-    var response = await http.post("http://192.168.1.9:3000/signin", body: data );
+    var response = await http.post("http://192.168.1.6:3000/signin", body: data );
     if(response.statusCode==200){
       jsonResponse = json.decode(response.body);
 
@@ -91,8 +94,8 @@ class _LoginPageState extends State<LoginPage> {
           signin(emailController.text, passwordController.text);
         },
         elevation: 0.0,
-        color: Colors.blue,
-        child: Text("Iniciar sesión",style: TextStyle(color:  Colors.white70)),
+        color: Colors.lightGreen,
+        child: Text("Iniciar sesión",style: TextStyle(color:  Colors.black)),
         
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
       );
@@ -111,10 +114,10 @@ class _LoginPageState extends State<LoginPage> {
   Container signupSection(){
     var signupButton = FlatButton(
         onPressed:(){
-           Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=>RegistroPage()));
+           Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=> RegistroPage()));
         },
         color: Colors.green,
-        child: Text("Registrarse",style: TextStyle(color:  Colors.white70)),
+        child: Text("Registrarse",style: TextStyle(color:  Colors.black)),
         
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
       );
@@ -137,10 +140,10 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(children: <Widget>[
         TextField(
           controller: emailController,
-          cursorColor: Colors.white,
-          style: TextStyle (color: Colors.white70),
+          cursorColor: Colors.black,
+          style: TextStyle (color: Colors.black),
           decoration: InputDecoration(
-              icon: Icon(Icons.email, color: Colors.white70),
+              icon: Icon(Icons.email, color: Colors.green),
               hintText: "Email",
               border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color:Colors.white70)
@@ -149,11 +152,11 @@ class _LoginPageState extends State<LoginPage> {
         SizedBox(height: 30.0,),
         TextField(
           controller: passwordController,
-          cursorColor: Colors.white,
+          cursorColor: Colors.black,
           obscureText: true,
-          style: TextStyle (color: Colors.white70),
+          style: TextStyle (color: Colors.black),
           decoration: InputDecoration(
-              icon: Icon(Icons.lock, color: Colors.white70),
+              icon: Icon(Icons.lock, color: Colors.green),
               hintText: "Password",
               border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color:Colors.white70)
@@ -169,12 +172,16 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       margin: EdgeInsets.only(top: 50.0),
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
-      child: Text("YourWork App",
+      child: Image(
+        image: NetworkImage("https://myimagenyw.s3.us-east-2.amazonaws.com/LogoOF.PNG"),
+      ),
+      /*child: Text("YourWork App",
           style: TextStyle(
               color: Colors.white70,
               fontSize: 40.0,
               fontWeight: FontWeight.bold
-          )),
+          )
+      ),*/
     );
   }
 
