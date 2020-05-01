@@ -1,10 +1,15 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart'as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:work/main.dart';
+import 'package:uuid/uuid.dart';
+import 'package:path/path.dart' as path;
+
+enum PhotoSource { FILE, NETWORK }
 
 class RegistroPage extends StatefulWidget{
   @override
@@ -13,14 +18,29 @@ class RegistroPage extends StatefulWidget{
 }
 
 class _RegistroPageState extends State<RegistroPage> {
+  List<File> _photos = List<File>();
+
+  //File fotPhoto ;
+  File antPhoto;
+
+  List<String> _photosUrls = List<String>();
+  //String fotPhotoUrl;
+  String antPhotoUrl = " ";
+
+  List<PhotoSource> _photosSources = List<PhotoSource>();
+  List<GalleryItem> _galleryItems = List<GalleryItem>();
+
 
   bool _isLoading = false;
+  bool _antFoto = false;
+  //bool _fotFoto = false;
   final TextEditingController nombreController = new TextEditingController();
   final TextEditingController cedulaController = new TextEditingController();
   final TextEditingController fotoController = new TextEditingController();
   final TextEditingController ubicacionController = new TextEditingController();
   final TextEditingController celularController = new TextEditingController();
   final TextEditingController emailController = new TextEditingController();
+  final TextEditingController nacimientoController = new TextEditingController();
   final TextEditingController antecedentesController = new TextEditingController();
   final TextEditingController formPrinController = new TextEditingController();
   final TextEditingController formSecController = new TextEditingController();
@@ -44,27 +64,84 @@ class _RegistroPageState extends State<RegistroPage> {
           children: <Widget>[
             heardSection(),
             textSection(),
-            //signupSection()
-
-
-
+            signupSection()
           ],
         ),
       ),
 
     );
   }
-  void _Camara(){
-    var imagen =  ImagePicker.pickImage(
+   void _Camara() async{
+    File imagen = await ImagePicker.pickImage(
       source: ImageSource.camera,
     );
+    if(imagen!=null){
+      _addPhoto(imagen);
+    }
   }
 
-  void _Galeria(){
-    var imagen =  ImagePicker.pickImage(
+   void _Galeria() async{
+    File imagen = await ImagePicker.pickImage(
       source: ImageSource.gallery,
     );
+    if(imagen!=null){
+      _addPhoto(imagen);
+    }
   }
+_addPhoto(File imagen)async{
+
+  String fileExtension =  path.extension(imagen.path);
+
+  _galleryItems.add(
+      GalleryItem(
+        id: Uuid().v1(),
+        resource: imagen.path,
+        isSvg: fileExtension.toLowerCase() == ".svg",
+      ),
+  );
+  setState(() {
+    _photos.add(imagen);
+    antPhoto = imagen;
+    _photosSources.add(PhotoSource.FILE);
+  });
+  GenerateImageUrl generateImageUrl = GenerateImageUrl();
+  await generateImageUrl.call(fileExtension);
+
+  String uploadUrl;
+  if (generateImageUrl.isGenerated != null &&
+      generateImageUrl.isGenerated) {
+    uploadUrl = generateImageUrl.uploadUrl;
+  } else {
+    throw generateImageUrl.message;
+  }
+
+  bool isUploaded = await uploadFile(context, uploadUrl, imagen);
+  if (isUploaded) {
+    setState(() {
+      _photosUrls.add(generateImageUrl.downloadUrl);
+      antPhotoUrl = generateImageUrl.downloadUrl;
+    });
+  }
+
+
+}
+
+  Future<bool> uploadFile(context, String url, File image) async {
+    try {
+      UploadFile uploadFile = UploadFile();
+      await uploadFile.call(url, image);
+
+      if (uploadFile.isUploaded != null && uploadFile.isUploaded) {
+        return true;
+      } else {
+        throw uploadFile.message;
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+
 
   Future<void> _optionsDialogBox() {
     return showDialog(context: context,
@@ -74,14 +151,14 @@ class _RegistroPageState extends State<RegistroPage> {
               child: new ListBody(
                 children: <Widget>[
                   GestureDetector(
-                    child: new Text('Take a picture'),
+                    child: new Text('Tomar una foto'),
                     onTap: _Camara,
                   ),
                   Padding(
                     padding: EdgeInsets.all(8.0),
                   ),
                   GestureDetector(
-                    child: new Text('Select from gallery'),
+                    child: new Text('Seleccionar de la galeria'),
                     onTap: _Galeria,
                   ),
                 ],
@@ -90,23 +167,25 @@ class _RegistroPageState extends State<RegistroPage> {
           );
         });
   }
-  signup(String nombre, email, contrasena) async{
+  signup( nombre,cc,avatar,ubicacion,celular, email,nacimiento,antecedentes,categoria,formPrin, formSec) async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
     Map data={
       'nombre': nombre,
-      'cc': '0000',
-      'Avatar': 'empty',
-      'ubicacion': 'empty',
-      'celular': '0000',
+      'cc': cc,
+      'Avatar': avatar,
+      'ubicacion': ubicacion,
+      'celular': celular,
       'email': email,
-      'password': contrasena,
-      'nacimiento': '01/01/2020'
+      'nacimiento': nacimiento,
+      'Antecedentes': antecedentes,
+      'categoria': categoria,
+      'formacionPrincipal': formPrin,
+      'formacionSecundaria': formSec,
+      'calificacion': 3,
+      'status': "false"
     };
-
     var jsonResponse;
-
-    var response = await http.post("http://192.168.1.6:3000/signup", body: data );
+    var response = await http.post("http://192.168.1.6:3000/workers", body: data );
     if(response.statusCode==200){
       jsonResponse = json.decode(response.body);
 
@@ -125,35 +204,6 @@ class _RegistroPageState extends State<RegistroPage> {
       print(response.body);
     }
   }
-
-//  Container signupSection(){
-//    var signupButton = RaisedButton(
-//      onPressed: nombreController.text =="" || emailController.text == "" || contrasenaController.text == "" || confContrasenaController.text =="" ? null:() {
-//
-//        setState(() {
-//          _isLoading = true;
-//        });
-//        if(contrasenaController.text == confContrasenaController.text) {
-//          signup(nombreController.text, emailController.text,confContrasenaController.text);
-//        }
-//      },
-//      elevation: 0.0,
-//      color: Colors.blue,
-//      child: Text("Registrate",style: TextStyle(color:  Colors.white70)),
-//
-//      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-//    );
-//
-//    return Container(
-//      width: MediaQuery.of(context).size.width,
-//      height: 40,
-//      padding: EdgeInsets.symmetric(horizontal:15),
-//      margin: EdgeInsets.only(top: 15),
-//      child: signupButton,
-//
-//
-//    );
-//  }
 
   Container heardSection(){
     return Container(
@@ -201,7 +251,6 @@ class _RegistroPageState extends State<RegistroPage> {
         TextField(
           controller: fotoController,
           cursorColor: Colors.white,
-          obscureText: true,
           style: TextStyle (color: Colors.white70),
           decoration: InputDecoration(
               icon: Icon(Icons.add_a_photo, color: Colors.white70),
@@ -214,7 +263,6 @@ class _RegistroPageState extends State<RegistroPage> {
         TextField(
           controller: ubicacionController,
           cursorColor: Colors.white,
-          obscureText: true,
           style: TextStyle (color: Colors.white70),
           decoration: InputDecoration(
               icon: Icon(Icons.home, color: Colors.white70),
@@ -227,7 +275,6 @@ class _RegistroPageState extends State<RegistroPage> {
         TextField(
           controller: celularController,
           cursorColor: Colors.white,
-          obscureText: true,
           style: TextStyle (color: Colors.white70),
           decoration: InputDecoration(
               icon: Icon(Icons.phone, color: Colors.white70),
@@ -240,7 +287,6 @@ class _RegistroPageState extends State<RegistroPage> {
         TextField(
           controller: emailController,
           cursorColor: Colors.white,
-          obscureText: true,
           style: TextStyle (color: Colors.white70),
           decoration: InputDecoration(
               icon: Icon(Icons.email, color: Colors.white70),
@@ -250,23 +296,46 @@ class _RegistroPageState extends State<RegistroPage> {
           ),
         ),
         SizedBox(height: 20.0,),
+        TextField(
+          controller: nacimientoController,
+          cursorColor: Colors.white,
+          style: TextStyle (color: Colors.white70),
+          decoration: InputDecoration(
+              icon: Icon(Icons.date_range, color: Colors.white70),
+              hintText: "Fecha de nacimiento",
+              border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              hintStyle: TextStyle(color:Colors.white70)
+          ),
+        ),
+        SizedBox(height: 20.0,),
         Row(
           children: <Widget>[
-            Padding(padding: EdgeInsets.all(10.0),
+            Padding(padding: EdgeInsets.all(15.0),
               child: RaisedButton(
-                onPressed: _optionsDialogBox,
+                color: _antFoto ? Colors.green :Colors.white,
+                onPressed: () =>[setState(() => _antFoto = !_antFoto), _optionsDialogBox()],
                 child: Text("Antecedentes"),
               ),
-            ),
+
+            ),Padding(padding: EdgeInsets.all(5.0),
+              child: Text("URL"+antPhotoUrl,
+                maxLines: 3,
+                style: TextStyle(
+                  fontSize: 4.0,
+                  backgroundColor: Colors.green
+                ),
+
+              ),
+            )
+
           ],
         ),
         TextField(
           controller: formPrinController,
           cursorColor: Colors.white,
-          obscureText: true,
           style: TextStyle (color: Colors.white70),
           decoration: InputDecoration(
-              icon: Icon(Icons.home, color: Colors.white70),
+              icon: Icon(Icons.school, color: Colors.white70),
               hintText: "Formacion principal",
               border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color:Colors.white70)
@@ -276,10 +345,9 @@ class _RegistroPageState extends State<RegistroPage> {
         TextField(
           controller: formSecController,
           cursorColor: Colors.white,
-          obscureText: true,
           style: TextStyle (color: Colors.white70),
           decoration: InputDecoration(
-              icon: Icon(Icons.home, color: Colors.white70),
+              icon: Icon(Icons.school, color: Colors.white70),
               hintText: "Formacion secundaria",
               border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color:Colors.white70)
@@ -289,10 +357,9 @@ class _RegistroPageState extends State<RegistroPage> {
         TextField(
           controller: categoriaController,
           cursorColor: Colors.white,
-          obscureText: true,
           style: TextStyle (color: Colors.white70),
           decoration: InputDecoration(
-              icon: Icon(Icons.home, color: Colors.white70),
+              icon: Icon(Icons.category, color: Colors.white70),
               hintText: "Categoria",
               border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
               hintStyle: TextStyle(color:Colors.white70)
@@ -301,5 +368,109 @@ class _RegistroPageState extends State<RegistroPage> {
       ],
       ),
     );
+  }
+  Container signupSection(){
+    var signupButton = RaisedButton(
+      onPressed: nombreController.text =="" || cedulaController.text == ""|| fotoController.text == "" || ubicacionController.text ==""
+          || celularController.text ==""|| emailController.text ==""|| nacimientoController.text == "" /*|| antecedentesController.text ==""*/
+          || formPrinController.text ==""|| categoriaController.text ==""? null:() {
+
+        setState(() {
+          _isLoading = true;
+        });
+
+          signup(nombreController.text, cedulaController.text, fotoController.text,
+              ubicacionController.text, celularController.text,  emailController.text, nacimientoController.text,
+              antecedentesController.text, formPrinController.text, formSecController.text,categoriaController.text);
+
+      },
+      elevation: 0.0,
+      color: Colors.green,
+      child: Text("Registrate",style: TextStyle(color:  Colors.white70,
+        fontSize: 25
+
+      ),
+      ),
+
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+    );
+
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 80,
+      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.all(15),
+      child: signupButton,
+
+
+
+    );
+
+  }
+
+}
+
+class GenerateImageUrl {
+  bool success;
+  String message;
+
+  bool isGenerated;
+  String uploadUrl;
+  String downloadUrl;
+
+  Future<void> call(String fileType) async {
+    try {
+      Map body = {"fileType": fileType};
+
+      var response = await http.post(
+        //For IOS
+        //'http://localhost:5000/generatePresignedUrl',
+        //For Android
+        'http://192.168.1.6:5000/generatePresignedUrl',
+        body: body,
+      );
+
+      var result = jsonDecode(response.body);
+
+      print(result);
+
+      if (result['success'] != null) {
+        success = result['success'];
+        message = result['message'];
+
+        if (response.statusCode == 201) {
+          isGenerated = true;
+          uploadUrl = result["uploadUrl"];
+          downloadUrl = result["downloadUrl"];
+        }
+      }
+    } catch (e) {
+      throw ('Error getting url');
+    }
+  }
+}
+class GalleryItem {
+  GalleryItem({this.id, this.resource, this.isSvg = false});
+
+  final String id;
+  String resource;
+  final bool isSvg;
+}
+
+class UploadFile {
+  bool success;
+  String message;
+
+  bool isUploaded;
+
+  Future<void> call(String url, File image) async {
+    try {
+      var response = await http.put(url, body: image.readAsBytesSync());
+      if (response.statusCode == 200) {
+        isUploaded = true;
+      }
+    } catch (e) {
+      throw ('Error uploading photo');
+    }
   }
 }

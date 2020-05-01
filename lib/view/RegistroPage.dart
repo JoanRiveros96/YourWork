@@ -94,6 +94,24 @@ class _RegistroPageState extends State<RegistroPage> {
           if(contrasenaController.text == confContrasenaController.text) {
             signup(nombreController.text, emailController.text,confContrasenaController.text);
           }
+          if(contrasenaController.text != confContrasenaController.text){
+
+            showDialog(context: context,
+              barrierDismissible: false,
+              builder: (context) => AlertDialog(
+                title: Text("Error de contraseña"),
+                content: Text("Las contraseñas deben ser exactas"),
+                actions: <Widget>[
+                  FlatButton(child: Text("OK"),
+                    onPressed: (){
+                      Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=> RegistroPage()));
+                    },
+                  )
+                ],
+              )
+            );
+
+          }
       },
       elevation: 0.0,
       color: Colors.blue,

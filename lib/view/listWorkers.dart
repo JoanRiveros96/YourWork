@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/painting.dart';
 import 'package:work/view/detailProduct.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -40,24 +41,29 @@ class _ListWorkerState extends State<ListWorker> {
         itemBuilder: (BuildContext context, int index){
           return Card(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   CircleAvatar(backgroundImage: NetworkImage(workerData[index]['Avatar']),
                     radius: 50
                   ),
                   Column(
+
                     children: <Widget>[
-                      Text("\t\t Nombre: "+"${workerData[index]["nombre"]}",
+                      Text("\t"+"${workerData[index]["nombre"]}",
                         style: TextStyle(
                           fontSize: 20.0,
-                          fontWeight: FontWeight.w700
+                          fontWeight: FontWeight.bold
+
                         ),
                       ),
-                      Text("\t\t Categoria: ""${workerData[index]["categoria"]}",
+
+                      Text("${workerData[index]["categoria"]}",
+
                         style: TextStyle(
                           fontSize: 20.0,
-                          fontWeight: FontWeight.w700
+                          fontWeight: FontWeight.w700,
+
                         ),
                       ),
                     ],
