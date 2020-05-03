@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -7,12 +6,14 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:work/view/addProducts.dart';
 import 'package:work/view/listWorkers.dart';
+import 'package:work/view/listWorkerCat.dart';
 import 'package:work/view/registroWorker.dart';
 import 'package:work/view/loginPage.dart';
 import 'package:http/http.dart' as http;
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +29,14 @@ class MyApp extends StatelessWidget {
 }
 
 class MainPage extends StatefulWidget {
+
+
   @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
+
 
   SharedPreferences sharedPrefences;
   @override
@@ -52,11 +56,13 @@ class _MainPageState extends State<MainPage> {
   }
   Map data;
   List categoriaData;
+  List categoria;
   getCategorias() async{
     http.Response response = await http.get("http://192.168.1.6:3000/categorias");
     data = json.decode(response.body);
     setState(() {
       categoriaData = data['categoria'];
+      categoria = data['categoria'];
     });
   }
 
@@ -80,28 +86,32 @@ class _MainPageState extends State<MainPage> {
       body : ListView.builder(
         itemCount: categoriaData==null ?0 : categoriaData.length,
         itemBuilder: (BuildContext context, int index){
-          return Card(
-            child: Padding(padding: const EdgeInsets.all(6.0),
-
-             child: Container(constraints: const  BoxConstraints.expand(height: 100.0
-             ),
-               alignment: Alignment.center,
-               padding: const EdgeInsets.all(10.0),
-                    decoration:  BoxDecoration(
-                      image:  DecorationImage(
-                        image: NetworkImage(categoriaData[index]['imagen']),
-                        fit: BoxFit.cover
-
+          return GestureDetector(
+              onTap: ()=> Navigator.of(context).push(
+            MaterialPageRoute(builder: (BuildContext context)=>workerCat(categoria[index]['nombre'])
+            ),
+              ),
+            child: Card(
+              child: Padding(padding: const EdgeInsets.all(6.0),
+               child: Container(constraints: const  BoxConstraints.expand(height: 100.0
+               ),
+                 alignment: Alignment.center,
+                 padding: const EdgeInsets.all(10.0),
+                      decoration:  BoxDecoration(
+                        image:  DecorationImage(
+                          image: NetworkImage(categoriaData[index]['imagen']),
+                          fit: BoxFit.cover
+                        ),
                       ),
+                       child: Text("${categoriaData[index]["nombre"]}",
+                       style: TextStyle(
+                         fontWeight: FontWeight.bold,
+                         color: Colors.white,
+                         fontSize: 40.0
+                       ),
+                       ),
                     ),
-                     child: Text("${categoriaData[index]["nombre"]}",
-                     style: TextStyle(
-                       fontWeight: FontWeight.bold,
-                       color: Colors.white,
-                       fontSize: 40.0
-                     ),
-                     ),
-                  ),
+              ),
             ),
           );
         },
@@ -134,3 +144,4 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
+
