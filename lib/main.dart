@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:work/view/addProducts.dart';
+import 'package:work/view/addAnuncios.dart';
 import 'package:work/view/listWorkers.dart';
 import 'package:work/view/listWorkerCat.dart';
 import 'package:work/view/registroWorker.dart';
@@ -120,25 +120,48 @@ class _MainPageState extends State<MainPage> {
           child: new ListView(
               children: <Widget>[
                 new UserAccountsDrawerHeader(
-                  accountName: new Text("alpha"),
-                  accountEmail: new Text("alpha@gmail.com"),
+                  accountName: new Text("Joan Sebastian Riveros Lozada"),
+                  accountEmail: new Text("joanriveros96gmail.com"),
                 ),
                 new ListTile(
                     title: new Text("Trabajadores activos"),
                     trailing: new Icon(Icons.work),
                     onTap: () => Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=>ListWorker()),
                     )),
-                new ListTile(title: new Text("Publica Anuncio"),
+                new ListTile(title: new Text("Solicita un servicio"),
                     trailing: new Icon(Icons.announcement),
-                    onTap: ()=> Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=>AddDataProduct()),
+                    onTap: ()=> Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=>AddDataAnuncio()),
                     )),
-
+                new ListTile(title: new Text("Mira tus solicitudes"),
+                    trailing: new Icon(Icons.pageview),
+                    onTap: ()=> Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=>AddDataAnuncio()),
+                    )),
                 new ListTile(title: new Text("Unete a nosotros"),
                   trailing: new Icon(Icons.group_add),
                     onTap: ()=> Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=>RegistroPage()),
                 )),
+                Padding(
+                  padding: EdgeInsets.all(80.0),
+                ),
+                Container(
+                  padding: EdgeInsets.all(40.0),
+                  child: RaisedButton(
+                    onPressed: (){},
+                    elevation: 10.0,
+                    color: Colors.lightGreen,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)
+                    ),
+                    child: Text(
+                      "Modo Trabajador",
+                      style: TextStyle(color: Colors.white70, fontSize: 25),
+                    ),
+                  ),
+                ),
+
               ]
+
           )
+
       ),
 
     );

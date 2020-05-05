@@ -38,8 +38,7 @@ class _RegistroPageState extends State<RegistroPage> {
 
   final TextEditingController celularController = new TextEditingController();
   final TextEditingController emailController = new TextEditingController();
-  final TextEditingController nacimientoController =
-      new TextEditingController();
+  final TextEditingController nacimientoController = new TextEditingController();
   String antPhotoUrl = " ";
   final TextEditingController formPrinController = new TextEditingController();
   final TextEditingController formSecController = new TextEditingController();

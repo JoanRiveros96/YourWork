@@ -106,8 +106,8 @@ class _EditProductState extends State<EditProduct> {
                   child: new Text("Edit"),
                   color: Colors.blueAccent,
                   onPressed: (){
-                    databaseHelper.editProduct(
-                        controllerId.text.trim(), controllerName.text.trim(), controllerPrice.text.trim(), controllerStock.text.trim());
+//                    databaseHelper.editAnuncio(
+//                        controllerId.text.trim(), controllerName.text.trim(), controllerPrice.text.trim(), controllerStock.text.trim());
                     Navigator.of(context).push(
                         new MaterialPageRoute(
                           //builder: (BuildContext context) => new ListProducts(),

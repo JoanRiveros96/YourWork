@@ -6,6 +6,7 @@ import 'package:work/main.dart';
 import 'package:work/view/detailProduct.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:work/view/detalleWorker.dart';
 import 'package:work/main.dart';
 
 
@@ -51,33 +52,38 @@ class _workerCatState extends State<workerCat> {
             return Card(
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    CircleAvatar(backgroundImage: NetworkImage(workerCatData[index]['Avatar']),
-                        radius: 50
-                    ),
-                    Column(
+                child: GestureDetector(onTap: ()=> Navigator.of(context).push(
+                  MaterialPageRoute(builder: (BuildContext context)=>detailWorker(workerCatData[index]['nombre'])
+                  ),
+                ),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      CircleAvatar(backgroundImage: NetworkImage(workerCatData[index]['Avatar']),
+                          radius: 50
+                      ),
+                      Column(
 
-                      children: <Widget>[
-                        Text("\t"+"${workerCatData[index]["nombre"]}",
-                          style: TextStyle(
+                        children: <Widget>[
+                          Text("\t"+"${workerCatData[index]["nombre"]}",
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold
+
+                            ),
+                          ),
+
+                          Text("Calificacion: ""${workerCatData[index]["calificacion"]}",
+
+                            style: TextStyle(
                               fontSize: 20.0,
-                              fontWeight: FontWeight.bold
+                              fontWeight: FontWeight.w700,
 
+                            ),
                           ),
-                        ),
-
-                        Text("Calificacion: ""${workerCatData[index]["calificacion"]}",
-
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w700,
-
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
              ),
             );

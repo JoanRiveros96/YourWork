@@ -1,3 +1,5 @@
+import 'dart:wasm';
+
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'dart:convert';
@@ -7,7 +9,7 @@ class DataBaseHelper {
 
   var status;
   var token;
-  String serverUrlProducts = "http://192.168.1.6:3000/products";
+  String serverUrlAnuncios = "http://192.168.1.6:3000/anuncios";
 
   //function getData
   Future<List> getData() async{
@@ -16,7 +18,7 @@ class DataBaseHelper {
     final key = 'token';
     final value = prefs.get(key ) ?? 0;
 
-    String myUrl = "$serverUrlProducts";
+    String myUrl = "$serverUrlAnuncios";
     http.Response response = await http.get(myUrl,
         headers: {
           'Accept':'application/json',
@@ -28,22 +30,24 @@ class DataBaseHelper {
 
 
   //function for register products
-  void addDataProduct(String _nameController, String _priceController, String _stockController) async {
+  void addDataAnuncio(String _tituloController, String _descripcionController, String _CategoriaController, num _valorController, num _contactoController) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key ) ?? 0;
 
     // String myUrl = "$serverUrl/api";
-    String myUrl = "http://192.168.1.6:3000/products";
+    String myUrl = "http://192.168.1.6:3000/anuncios";
     final response = await  http.post(myUrl,
         headers: {
           'Accept':'application/json',
           'Authorization' : 'Bearer $value'
         },
         body: {
-          "name":       "$_nameController",
-          "price":      "$_priceController",
-          "stock":      "$_stockController"
+          "titulo":       "$_tituloController",
+          "descripcion":      "$_descripcionController",
+          "categoria":      "$_CategoriaController",
+          "valor":      "$_valorController",
+          "contact":      "$_contactoController"
         } ) ;
     status = response.body.contains('error');
 
@@ -58,17 +62,19 @@ class DataBaseHelper {
   }
 
   //function for update or put
-  void editProduct(String _id, String name, String price, String stock) async {
+  void editAnuncio(String _id, String titulo, String descripcion, String categoria, Int32 valor, Int32 contacto) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key) ?? 0;
 
-    String myUrl = "http://192.168.1.6:3000/product/$_id";
+    String myUrl = "http://192.168.1.6:3000/anuncio/$_id";
     http.put(myUrl,
         body: {
-          "name":       "$name",
-          "price":       "$price",
-          "stock":      "$stock"
+          "titulo":       "$titulo",
+          "descripcion":      "$descripcion",
+          "categoria":      "$categoria",
+          "valor":      "$valor",
+          "contact":      "$contacto"
         }).then((response){
       print('Response status : ${response.statusCode}');
       print('Response body : ${response.body}');
@@ -79,7 +85,7 @@ class DataBaseHelper {
   //function for delete
   Future<void> removeRegister(String _id) async {
 
-    String myUrl = "http://192.168.1.6:3000/product/$_id";
+    String myUrl = "http://192.168.1.6:3000/anuncio/$_id";
 
     Response res = await http.delete("$myUrl");
 
