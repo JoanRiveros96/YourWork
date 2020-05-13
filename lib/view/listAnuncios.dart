@@ -1,31 +1,28 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/painting.dart';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:work/view/detalleWorker.dart';
 
-class ListWorker extends StatefulWidget {
+class ListAnuncios extends StatefulWidget {
   @override
-  _ListWorkerState createState() => _ListWorkerState();
+  _ListAnunciosState createState() => _ListAnunciosState();
 }
 
-class _ListWorkerState extends State<ListWorker> {
+class _ListAnunciosState extends State<ListAnuncios> {
   @override
   void initState() {
     super.initState();
-    getWorker();
+    getAnuncios();
   }
 
   Map data;
-  List workerData;
-  getWorker() async {
-    http.Response response = await http.get("http://192.168.1.6:3000/workers");
+  List anuncioData;
+  getAnuncios() async {
+    http.Response response = await http.get("http://192.168.1.6:3000/anuncios");
     data = json.decode(response.body);
     setState(() {
-      workerData = data['worker'];
+      anuncioData = data['anuncio'];
     });
   }
 
@@ -33,11 +30,11 @@ class _ListWorkerState extends State<ListWorker> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Trabajadores activos'),
+          title: Text('Solicitudes de trabajo'),
           backgroundColor: Colors.green,
         ),
         body: ListView.builder(
-          itemCount: workerData == null ? 0 : workerData.length,
+          itemCount: anuncioData == null ? 0 : anuncioData.length,
           itemBuilder: (BuildContext context, int index) {
             return Card(
               child: Padding(
@@ -46,26 +43,25 @@ class _ListWorkerState extends State<ListWorker> {
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
                         builder: (BuildContext context) =>
-                            DetailWorker(workerData[index]['nombre'])),
+                            DetailWorker(anuncioData[index]['nombre'])),
                   ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      CircleAvatar(
-                          backgroundImage:
-                              NetworkImage(workerData[index]['Avatar']),
-                          radius: 50),
                       Flexible(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "\t" + "${workerData[index]["nombre"]}",
-                              overflow: TextOverflow.ellipsis,
+                              "\t" + "${anuncioData[index]["titulo"]}",
                               style: TextStyle(
-                                  fontSize: 20.0, fontWeight: FontWeight.bold),
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green),
                             ),
                             Text(
-                              "${workerData[index]["categoria"]}",
+                              "${anuncioData[index]["descripcion"]}",
+                              maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 20.0,
@@ -73,13 +69,12 @@ class _ListWorkerState extends State<ListWorker> {
                               ),
                             ),
                             Text(
-                              "Calificacion:" +
-                                  "${workerData[index]["calificacion"]}",
-                              overflow: TextOverflow.ellipsis,
+                              "Categoria:" +
+                                  "${anuncioData[index]["categoria"]}",
                               style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w700,
-                              ),
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.redAccent),
                             ),
                           ],
                         ),

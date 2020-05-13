@@ -1,12 +1,9 @@
-import 'dart:wasm';
-
 import 'package:work/controllers/databasehelpers.dart';
 import 'package:work/main.dart';
 import 'package:flutter/material.dart';
 
 class AddDataAnuncio extends StatefulWidget {
-
-  AddDataAnuncio({Key key , this.title}) : super(key : key);
+  AddDataAnuncio({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
@@ -14,17 +11,15 @@ class AddDataAnuncio extends StatefulWidget {
 }
 
 class _AddDataProductState extends State<AddDataAnuncio> {
-
   DataBaseHelper databaseHelper = new DataBaseHelper();
 
-
   final TextEditingController _tituloController = new TextEditingController();
-  final TextEditingController _descripcionController = new TextEditingController();
-  final TextEditingController _categoriaController = new TextEditingController();
+  final TextEditingController _descripcionController =
+      new TextEditingController();
+  final TextEditingController _categoriaController =
+      new TextEditingController();
   final TextEditingController _valorController = new TextEditingController();
   final TextEditingController _contactoController = new TextEditingController();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +27,12 @@ class _AddDataProductState extends State<AddDataAnuncio> {
       title: 'Agrega tu anuncio',
       home: Scaffold(
         appBar: AppBar(
-          title:  Text('Añadir anuncio'),
-          backgroundColor: Colors.green
-        ),
+            title: Text('Añadir anuncio'), backgroundColor: Colors.green),
         body: Container(
           child: ListView(
-            padding: const EdgeInsets.only(top: 62,left: 12.0,right: 12.0,bottom: 12.0),
+            padding: const EdgeInsets.only(
+                top: 62, left: 12.0, right: 12.0, bottom: 12.0),
             children: <Widget>[
-
               Container(
                 height: 50,
                 child: new TextField(
@@ -50,7 +43,6 @@ class _AddDataProductState extends State<AddDataAnuncio> {
                   ),
                 ),
               ),
-
               Container(
                 height: 50,
                 child: new TextField(
@@ -95,37 +87,35 @@ class _AddDataProductState extends State<AddDataAnuncio> {
                   ),
                 ),
               ),
-              new Padding(padding: new EdgeInsets.only(top: 44.0),),
+              new Padding(
+                padding: new EdgeInsets.only(top: 44.0),
+              ),
               Container(
                 height: 50,
                 child: new RaisedButton(
-                  onPressed: (){
+                  onPressed: () {
                     databaseHelper.addDataAnuncio(
-                        _tituloController.text.trim(), _descripcionController.text.trim(), _categoriaController.text.trim(),
-                    int.parse(_valorController.text.trim()),int.parse(_contactoController.text.trim()));
-                    Navigator.of(context).push(
-                        new MaterialPageRoute(
-                          builder: (BuildContext context) => new MainPage(),
-                        )
-                    );
+                        _tituloController.text.trim(),
+                        _descripcionController.text.trim(),
+                        _categoriaController.text.trim(),
+                        int.parse(_valorController.text.trim()),
+                        int.parse(_contactoController.text.trim()));
+                    Navigator.of(context).push(new MaterialPageRoute(
+                      builder: (BuildContext context) => new MainPage(),
+                    ));
                   },
                   color: Colors.green,
                   child: new Text(
                     'Añadir',
                     style: new TextStyle(
-                        color: Colors.white,
-                        backgroundColor: Colors.green),),
+                        color: Colors.white, backgroundColor: Colors.green),
+                  ),
                 ),
               ),
-
-
             ],
           ),
         ),
       ),
     );
   }
-
-
-
 }

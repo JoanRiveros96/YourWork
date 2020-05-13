@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +13,7 @@ class RegistroPage extends StatefulWidget{
 
 class _RegistroPageState extends State<RegistroPage> {
 
+  
   bool _isLoading = false;
   final TextEditingController nombreController = new TextEditingController();
   final TextEditingController emailController = new TextEditingController();
@@ -90,12 +90,15 @@ class _RegistroPageState extends State<RegistroPage> {
 
           setState(() {
             _isLoading = true;
+
           });
-          if(contrasenaController.text == confContrasenaController.text) {
-            signup(nombreController.text, emailController.text,confContrasenaController.text);
+
+          if(contrasenaController.text == confContrasenaController.text ) {
+
+              signup(nombreController.text, emailController.text, confContrasenaController.text);
+
           }
           if(contrasenaController.text != confContrasenaController.text){
-
             showDialog(context: context,
               barrierDismissible: false,
               builder: (context) => AlertDialog(

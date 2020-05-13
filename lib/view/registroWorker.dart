@@ -38,7 +38,8 @@ class _RegistroPageState extends State<RegistroPage> {
 
   final TextEditingController celularController = new TextEditingController();
   final TextEditingController emailController = new TextEditingController();
-  final TextEditingController nacimientoController = new TextEditingController();
+  final TextEditingController nacimientoController =
+      new TextEditingController();
   String antPhotoUrl = " ";
   final TextEditingController formPrinController = new TextEditingController();
   final TextEditingController formSecController = new TextEditingController();
@@ -69,7 +70,7 @@ class _RegistroPageState extends State<RegistroPage> {
     );
   }
 
-  void _CamaraFot() async {
+  void _camaraFot() async {
     File imagen = await ImagePicker.pickImage(
       source: ImageSource.camera,
     );
@@ -78,7 +79,7 @@ class _RegistroPageState extends State<RegistroPage> {
     }
   }
 
-  void _GaleriaFot() async {
+  void _galeriafot() async {
     File imagen = await ImagePicker.pickImage(
       source: ImageSource.gallery,
     );
@@ -87,7 +88,7 @@ class _RegistroPageState extends State<RegistroPage> {
     }
   }
 
-  void _CamaraAnt() async {
+  void _camaraant() async {
     File imagen = await ImagePicker.pickImage(
       source: ImageSource.camera,
     );
@@ -96,7 +97,7 @@ class _RegistroPageState extends State<RegistroPage> {
     }
   }
 
-  void _GaleriaAnt() async {
+  void _galeriaAnt() async {
     File imagen = await ImagePicker.pickImage(
       source: ImageSource.gallery,
     );
@@ -198,14 +199,14 @@ class _RegistroPageState extends State<RegistroPage> {
                 children: <Widget>[
                   GestureDetector(
                     child: new Text('Tomar una foto'),
-                    onTap: _CamaraAnt,
+                    onTap: _camaraant,
                   ),
                   Padding(
                     padding: EdgeInsets.all(8.0),
                   ),
                   GestureDetector(
                     child: new Text('Seleccionar de la galeria'),
-                    onTap: _GaleriaAnt,
+                    onTap: _galeriaAnt,
                   ),
                 ],
               ),
@@ -224,14 +225,14 @@ class _RegistroPageState extends State<RegistroPage> {
                 children: <Widget>[
                   GestureDetector(
                     child: new Text('Tomar una foto'),
-                    onTap: _CamaraFot,
+                    onTap: _camaraFot,
                   ),
                   Padding(
                     padding: EdgeInsets.all(8.0),
                   ),
                   GestureDetector(
                     child: new Text('Seleccionar de la galeria'),
-                    onTap: _GaleriaFot,
+                    onTap: _galeriafot,
                   ),
                 ],
               ),
@@ -340,14 +341,15 @@ class _RegistroPageState extends State<RegistroPage> {
                   child: Text("Foto"),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(5.0),
-                child: Text(
-                  "URL" + fotPhotoUrl,
-                  maxLines: 3,
-                  softWrap: true,
-                  style:
-                      TextStyle(fontSize: 4.0, backgroundColor: Colors.green),
+              Flexible(
+                child: Padding(
+                  padding: EdgeInsets.all(5.0),
+                  child: Text(
+                    "URL" + fotPhotoUrl,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 15.0, backgroundColor: Colors.green),
+                  ),
                 ),
               )
             ],
@@ -424,14 +426,17 @@ class _RegistroPageState extends State<RegistroPage> {
                   child: Text("Antecedentes"),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(5.0),
-                child: Text(
-                  "URL" + antPhotoUrl,
-                  maxLines: 3,
-                  softWrap: true,
-                  style:
-                      TextStyle(fontSize: 4.0, backgroundColor: Colors.green),
+              Flexible(
+                child: Padding(
+                  padding: EdgeInsets.all(5.0),
+                  child: Text(
+                    "URL" + antPhotoUrl,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      backgroundColor: Colors.green,
+                    ),
+                  ),
                 ),
               )
             ],
